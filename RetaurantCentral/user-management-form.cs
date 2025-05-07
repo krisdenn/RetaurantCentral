@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace RestaurantSystem
 {
@@ -50,6 +51,8 @@ namespace RestaurantSystem
         public UserManagementForm(string adminUsername)
         {
             this.adminUsername = adminUsername;
+            InitializeSampleUsers();
+            InitializeComponent();
             RefreshUserList();
         }
 
@@ -62,6 +65,27 @@ namespace RestaurantSystem
             User.Add(new User("chef1", "chef123", "Chef", "Michael Brown"));
             User.Add(new User("chef2", "chef123", "Chef", "Sarah Davis"));
             User.Add(new User("admin1", "admin123", "Administrator", "Admin User"));
+        }
+
+        // Rename the duplicate InitializeComponent method in UserManagementFormV2
+        private void InitializeComponentV2()
+        {
+            this.Text = "User Management V2";
+            this.Size = new Size(900, 600);
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+
+            // Additional initialization logic for UserManagementFormV2 can go here
+        }
+
+        // Update the constructor of UserManagementFormV2 to call the renamed method
+        public UserManagementForm()
+        {
+            this.adminUsername = adminUsername;
+            InitializeSampleUsersV2(); // Call the renamed method
+            InitializeComponentV2();   // Call the renamed method
+            RefreshUserList();
         }
 
         private void InitializeComponent()
@@ -186,7 +210,7 @@ namespace RestaurantSystem
             if (lvwUsers.SelectedItems.Count > 0)
             {
                 User selectedUser = lvwUsers.SelectedItems[0].Tag as User;
-
+                
                 // Open a form to edit the selected user
                 using (UserForm userForm = new UserForm(selectedUser))
                 {
@@ -198,7 +222,7 @@ namespace RestaurantSystem
                         selectedUser.Password = updatedUser.Password;
                         selectedUser.Role = updatedUser.Role;
                         selectedUser.IsActive = updatedUser.IsActive;
-
+                        
                         RefreshUserList();
                         lblStatus.Text = $"User '{selectedUser.Username}' has been updated.";
                     }
@@ -211,9 +235,9 @@ namespace RestaurantSystem
             if (lvwUsers.SelectedItems.Count > 0)
             {
                 User selectedUser = lvwUsers.SelectedItems[0].Tag as User;
-
+                
                 // Confirm deletion
-                if (MessageBox.Show($"Are you sure you want to delete user '{selectedUser.Username}'?",
+                if (MessageBox.Show($"Are you sure you want to delete user '{selectedUser.Username}'?", 
                     "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     // In a real application, we might just mark as inactive
@@ -363,12 +387,12 @@ namespace RestaurantSystem
         private void BtnSave_Click(object sender, EventArgs e)
         {
             // Validate required fields
-            if (string.IsNullOrWhiteSpace(txtUsername.Text) ||
+            if (string.IsNullOrWhiteSpace(txtUsername.Text) || 
                 string.IsNullOrWhiteSpace(txtPassword.Text) ||
                 string.IsNullOrWhiteSpace(txtFullName.Text) ||
                 cmbRole.SelectedItem == null)
             {
-                MessageBox.Show("Please fill in all required fields.", "Validation Error",
+                MessageBox.Show("Please fill in all required fields.", "Validation Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.DialogResult = DialogResult.None;
                 return;
@@ -403,8 +427,6 @@ namespace RestaurantSystem
             }
         }
     }
-
-    // Renamed class to avoid conflict
     public class UserManagementFormV2 : Form
     {
         private string adminUsername;
@@ -422,8 +444,15 @@ namespace RestaurantSystem
         private StatusStrip statusStrip;
         private ToolStripStatusLabel lblStatus;
 
+        // Update the constructor of UserManagementFormV2 to call the renamed method
+        public UserManagementFormV2(string adminUsername)
+        {
+            this.adminUsername = adminUsername;
+            InitializeSampleUsers(); // Call the existing method
+            InitializeComponentV2(); // Call the renamed method
+            RefreshUserList();
+        }
 
-        private void InitializeSampleUsersV2()
         {
             // Add some sample users for the demo
             User.Add(new User("waiter1", "waiter123", "Waiter", "John Smith"));
@@ -433,8 +462,6 @@ namespace RestaurantSystem
             User.Add(new User("admin1", "admin123", "Administrator", "Admin User"));
         }
 
-        
-        private void InitializeComponentV2()
         {
             this.Text = "User Management V2";
             this.Size = new Size(900, 600);
@@ -442,7 +469,6 @@ namespace RestaurantSystem
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
 
-            
         }
 
         private void RefreshUserList()

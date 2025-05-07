@@ -64,7 +64,9 @@
     <Compile Include="SettingsForm.cs" />
     <Compile Include="user-management-form.cs" />
     <Compile Include="waiter-tables-form.cs" />
-    <Compile Include="WaiterOrdersForm.cs" />
+    <Compile Include="WaiterOrdersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="CustomerOrdersForm.resx">
       <DependentUpon>CustomerOrdersForm.cs</DependentUpon>
     </EmbeddedResource>
